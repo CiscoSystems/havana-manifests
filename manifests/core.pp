@@ -21,9 +21,9 @@ node base {
 
     # Load apt prerequisites.  This is only valid on Ubuntu systmes
     if($::package_repo == 'cisco_repo') {
-      apt::source { "cisco-openstack-mirror_grizzly":
+      apt::source { "cisco-openstack-mirror_havana":
         location    => "$::location/cisco",
-        release     => "grizzly-proposed",
+        release     => "havana-proposed",
         repos       => "main",
         key         => "E8CC67053ED3B199",
         proxy       => $::proxy,
@@ -61,9 +61,9 @@ UcXHbA==
       }
 
       if $::supplemental_repo {
-        apt::source { "cisco_supplemental-openstack-mirror_grizzly":
+        apt::source { "cisco_supplemental-openstack-mirror_havana":
           location    => "$::supplemental_repo",
-          release     => "grizzly-proposed",
+          release     => "havana-proposed",
           repos       => "main",
           key         => "E8CC67053ED3B199",
           proxy       => $::proxy,
@@ -112,7 +112,7 @@ UcXHbA==
     } elsif($::package_repo == 'cloud_archive') {
       apt::source { 'openstack_cloud_archive':
         location          => "http://ubuntu-cloud.archive.canonical.com/ubuntu",
-        release           => "precise-updates/grizzly",
+        release           => "precise-updates/havana",
         repos             => "main",
         required_packages => 'ubuntu-cloud-keyring',
       }

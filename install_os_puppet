@@ -45,20 +45,20 @@ export -f run_cmd
 # to emulate a git clone by tag command that doesn't exist
 function git_clone_tag () {
     if [ -z "$PROXY" ]; then
-        sudo git clone https://github.com/CiscoSystems/grizzly-manifests /root/cisco-grizzly-manifests
-        sudo bash -c "cd /root/cisco-grizzly-manifests && git checkout -q $CURRENT_TAG"
+        sudo git clone https://github.com/CiscoSystems/havana-manifests /root/cisco-havana-manifests
+        sudo bash -c "cd /root/cisco-havana-manifests && git checkout -q $CURRENT_TAG"
     else
-        sudo env https_proxy=$PROXY git clone https://github.com/CiscoSystems/grizzly-manifests /root/cisco-grizzly-manifests
-        sudo env https_proxy=$PROXY bash -c "cd /root/cisco-grizzly-manifests && git checkout -q $CURRENT_TAG"
+        sudo env https_proxy=$PROXY git clone https://github.com/CiscoSystems/havana-manifests /root/cisco-havana-manifests
+        sudo env https_proxy=$PROXY bash -c "cd /root/cisco-havana-manifests && git checkout -q $CURRENT_TAG"
     fi
 }
 export -f git_clone_tag
 
 function git_fetch_tag () {
     if [ -z "$PROXY" ]; then
-        sudo bash -c "cd /root/cisco-grizzly-manifests && git fetch --all && git checkout -q $CURRENT_TAG"
+        sudo bash -c "cd /root/cisco-havana-manifests && git fetch --all && git checkout -q $CURRENT_TAG"
     else
-        sudo env https_proxy=$PROXY bash -c "cd /root/cisco-grizzly-manifests && git fetch --all && git checkout -q $CURRENT_TAG"
+        sudo env https_proxy=$PROXY bash -c "cd /root/cisco-havana-manifests && git fetch --all && git checkout -q $CURRENT_TAG"
     fi
 }
 export -f git_fetch_tag
@@ -110,17 +110,17 @@ if ! run_cmd apt-get $APT_CONFIG install -qym git puppet ipmitool; then
 fi
 
 # Grab the Cisco puppet global manifests (site.pp, etc.), try to update a previously downloaded set first
-echo "Cloning grizzly-manifests multi-node repository branch from github.com..."
-if [ -d /root/cisco-grizzly-manifests ] ; then
-	echo -e "Looks like perhaps you ran this script before? We'll try to update your cisco-grizzly-manifests directory, just in case..."
+echo "Cloning havana-manifests multi-node repository branch from github.com..."
+if [ -d /root/cisco-havana-manifests ] ; then
+	echo -e "Looks like perhaps you ran this script before? We'll try to update your cisco-havana-manifests directory, just in case..."
 	if ! git_fetch_tag ; then
-	   echo "That did not work.  Perhaps rename your cisco-grizzly-manifests directory, and try again?"
+	   echo "That did not work.  Perhaps rename your cisco-havana-manifests directory, and try again?"
 	   exit 1
     fi
 fi
 
 # Get a new set, as there was no previous download
-if [ ! -d /root/cisco-grizzly-manifests ] ; then
+if [ ! -d /root/cisco-havana-manifests ] ; then
 	if ! git_clone_tag ; then
  	  echo "Can't run git clone!"
 	  exit 1
@@ -128,15 +128,15 @@ if [ ! -d /root/cisco-grizzly-manifests ] ; then
 fi
 
 echo "Copying manifests examples to manifest dir..."
-if ! run_cmd cp /root/cisco-grizzly-manifests/manifests/* /etc/puppet/manifests/ ;then
+if ! run_cmd cp /root/cisco-havana-manifests/manifests/* /etc/puppet/manifests/ ;then
   echo "Can't copy sample manifests!!!"
   exit 1
 fi
 
-if [ -d /root/cisco-grizzly-manifests/templates ]
+if [ -d /root/cisco-havana-manifests/templates ]
 then
 	echo "Copying templates to templates dir..."
-	if ! run_cmd cp -R /root/cisco-grizzly-manifests/templates/* /etc/puppet/templates/ ;then
+	if ! run_cmd cp -R /root/cisco-havana-manifests/templates/* /etc/puppet/templates/ ;then
   		echo "Can't copy templates!!!"
 		exit 1
 	fi

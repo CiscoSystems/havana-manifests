@@ -26,7 +26,7 @@ import subprocess
 #-------- Default Constants ---------------------
 
 ## ----- global variables that can be configurable via cmdline.
-REPO_NAME = "grizzly-proposed"
+REPO_NAME = "havana-proposed"
 APT_REPO_URL = "ftp://ftpeng.cisco.com/openstack/cisco"
 # uncomment this line if you prefer to use http
 # APT_REPO_URL = "http://openstack-repo.cisco.com/openstack/cisco"
@@ -36,7 +36,7 @@ MODULE_FILE = "modules.list"
 PUPPET_PATH = "/etc/puppet/"
 
 # config file locations for yum and apt
-APT_CONFIG_FILE = "/etc/apt/sources.list.d/cisco-openstack-mirror_grizzly.list"
+APT_CONFIG_FILE = "/etc/apt/sources.list.d/cisco-openstack-mirror_havana.list"
 YUM_CONFIG_FILE = "/etc/yum.repos.d/cisco-openstack-mirror.repo"
 
 # gpg keys for yum and apt repos with which packages are signed
@@ -80,7 +80,7 @@ YUM_REPO_KEY = """TBD"""
 # where $type = 'yum' or 'apt'; $release= 'folsom' or 'grizzly' etc.
 
 # yum repo url and .repo file setup
-YUM_REPO_URL = "ftp://ftpeng.cisco.com/openstack/cisco/fedora/dist/grizzly"
+YUM_REPO_URL = "ftp://ftpeng.cisco.com/openstack/cisco/fedora/dist/havana"
 YUM_REPO_DATA = """
 [cisco-openstack-mirror]
 name=Cisco Openstack Repository
@@ -99,7 +99,7 @@ def setup_apt_sources():
     """
     global REPO_NAME, APT_REPO_URL
     return """
-# cisco-openstack-mirror_grizzly
+# cisco-openstack-mirror_havana
 deb %(repo_url)s %(repo_name)s main
 deb-src %(repo_url)s %(repo_name)s main
 """ % {'repo_url': APT_REPO_URL, 'repo_name': REPO_NAME}
@@ -181,10 +181,10 @@ def setup_yum_repo():
      Example yum repo file is as follows:
      [cisco-openstack-mirror]
      name=Cisco Openstack Repository
-     baseurl=ftp://ftpeng.cisco.com/openstack/cisco/yum/dist/grizzly/
+     baseurl=ftp://ftpeng.cisco.com/openstack/cisco/yum/dist/havana/
      enabled=1
      gpgcheck=1
-     gpgkey=ftp://ftpeng.cisco.com/openstack/cisco/yum/dist/grizzly/coe.pub
+     gpgkey=ftp://ftpeng.cisco.com/openstack/cisco/yum/dist/havana/coe.pub
 
     """
     if os.path.exists(YUM_CONFIG_FILE):
