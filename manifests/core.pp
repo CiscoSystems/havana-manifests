@@ -496,16 +496,6 @@ class control(
   
     class { "coe::quantum_log": }
 
-    # Set up various Ceph scenarios.
-    if $::controller_has_mon {
-      class { 'coe::ceph::control': }
-    }
-    elsif $::cinder_ceph_enabled {
-      class { 'coe::ceph::control': }
-    }
-    elsif $::glance_ceph_enabled {
-      class { 'coe::ceph::control': }
-    }
   }
 }
 
@@ -527,30 +517,6 @@ class cinder_node() {
 
 ### end cinder standalone nodes
  
-
-### begin ceph ###
-class ceph_common (
-) {
-  class { 'ceph::conf':
-    fsid            => $::ceph_monitor_fsid,
-    auth_type       => $::ceph_auth_type,
-    cluster_network => $::ceph_cluster_network,
-    public_network  => $::ceph_public_network,
-  }
-}
-
-class ceph_mon (
-  $id
-) {
-  class { 'ceph_common': }
-  ceph::mon { $id:
-    monitor_secret => $::ceph_monitor_secret,
-    mon_port       => 6789,
-    mon_addr       => $::ceph_monitor_address,
-  }
-}
-
-### end ceph
 
 # Class for compute nodes.
 class compute(
@@ -742,11 +708,6 @@ class compute(
 
     class { "coe::quantum_log": }
 
-    if $::cinder_ceph_enabled {
-      class { 'coe::ceph::compute':
-        poolname => $::cinder_rbd_pool,
-      }
-    }
   }
 }
 
